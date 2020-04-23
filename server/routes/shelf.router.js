@@ -31,10 +31,11 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     if (req.isAuthenticated()) {
         pool.query(`INSERT INTO "item" ("description", "image_url", "user_id") VALUES ($1, $2, $3)`, 
         [newItem.description, newItem.image_url, req.user.id])
-            .then(res.sendStatus(200))
-            .catch(
-                res.sendStatus(500)
-            );
+            .then((result) => {
+                res.sendStatus(200);
+            }).catch((error) => {
+                res.sendStatus(500);
+            });
     }
 });
 
