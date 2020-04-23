@@ -38,13 +38,21 @@ class InfoPage extends Component {
       
       <>
       <div>
-        {JSON.stringify(this.props.itemList)}
         <p>Shelf Page </p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" onChange={event => this.handleChangeDesc(event)} placeholder="New Object Description"></input>
             <input type="text" onChange={event => this.handleChangeUrl(event)} placeholder="Image Url"></input>
           <button type="submit">Add Button</button>
-        </form>
+          </form>
+          {/* <p> {JSON.stringify(this.props.items)} </p> */}
+          <h4>Here are the Objects on My Shelf</h4>
+          <ul>
+          {this.props ? this.props.items.map((items) => {
+            return(
+              <li>{items.description}</li>
+            );
+          }) : '' }
+        </ul>
       </div>
         </>
     );
@@ -52,7 +60,7 @@ class InfoPage extends Component {
 }
 
 const putPropsOnReduxStore = (reduxStore) => ({
-  itemList: reduxStore.getListReducer,
+  items: reduxStore.list,
 });
 
 InfoPage = withRouter(InfoPage);
