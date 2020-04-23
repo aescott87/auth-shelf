@@ -10,7 +10,8 @@ class InfoPage extends Component {
   }
 
   componentDidMount () {
-    //this.props.dispatch({type:'FETCH_ITEMS'})
+    this.props.dispatch({type:'FETCH_ITEMS'});
+    console.log(this.props.itemList);
   }
     
   handleSubmit =() => {
@@ -34,31 +35,18 @@ class InfoPage extends Component {
   
   render(){
     return (
+      
       <>
       <div>
+        {JSON.stringify(this.props.itemList)}
         <p>Shelf Page </p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" onChange={event => this.handleChangeDesc(event)} placeholder="New Object Description"></input>
             <input type="text" onChange={event => this.handleChangeUrl(event)} placeholder="Image Url"></input>
           <button type="submit">Add Button</button>
         </form>
-        {JSON.stringify(this.props.itemList)}
-        <ul>
-          {this.props.itemList ?
-          this.props.itemList.map(item => {
-            return(
-              <>
-              <li key={item.id}>{item.description}</li>
-              <li><img src={item.url} /></li>
-              </>
-            );
-          })
-            :
-          <p>Nothin!</p>
-          }
-        </ul> 
       </div>
-      </>
+        </>
     );
   }
 }
