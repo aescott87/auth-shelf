@@ -10,12 +10,12 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('req.user:', req.user);
     if (req.isAuthenticated()) {
-    pool.query('SELECT * FROM "item";')
-        .then(results => res.send(results.rows))
-        .catch(error => {
-            console.log('Error making SELECT for items:', error);
-            res.sendStatus(500);
-        });
+        pool.query('SELECT * FROM "item";')
+            .then(results => res.send(results.rows))
+            .catch(error => {
+                console.log('Error making SELECT for items:', error);
+                res.sendStatus(500);
+            });
     } else {
         res.sendStatus(403);
     }
@@ -25,8 +25,16 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 /**
  * Add an item for the logged in user to the shelf
  */
-router.post('/', (req, res) => {
-
+router.post('/', rejectUnauthenticated, (req, res) => {
+    const newItem = req.body;
+    console.log('new item is', newItem);
+    if (req.isAuthenticated()) {
+        pool.query(`INSERT INTO "item" ("description", "image_url") VALUES ($1, $2);`, [req.body.description, req.body.image_url])
+            .then(res.sendStatus(200))
+            .catch(
+                res.sendStatus(500)
+            );
+    }
 });
 
 
