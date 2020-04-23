@@ -13,7 +13,7 @@ function* postItemSaga(action) {
 }
 
 function* postSaga() {
-    yield takeLatest('FETCH_ITEMS', postItemSaga);
+    yield takeLatest('NEW_OBJECT', postItemSaga);
   }
 
 export default postSaga;

@@ -10,7 +10,7 @@ class InfoPage extends Component {
   }
 
   componentDidMount () {
-    this.props.dispatch({type:'FETCH_ITEMS'})
+    //this.props.dispatch({type:'FETCH_ITEMS'})
   }
     
   handleSubmit =() => {
