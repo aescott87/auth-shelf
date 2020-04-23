@@ -29,7 +29,8 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const newItem = req.body;
     console.log('new item is', newItem);
     if (req.isAuthenticated()) {
-        pool.query(`INSERT INTO "item" ("description", "image_url") VALUES ($1, $2);`, [req.body.description, req.body.image_url])
+        pool.query(`INSERT INTO "item" ("description", "image_url") VALUES ($1, $2) WHERE "user_id" = $3;`, 
+        [newItem.description, newItem.image_url, req.user.id])
             .then(res.sendStatus(200))
             .catch(
                 res.sendStatus(500)
