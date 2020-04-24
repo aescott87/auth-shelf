@@ -47,11 +47,9 @@ class InfoPage extends Component {
           {/* <p> {JSON.stringify(this.props.items)} </p> */}
           <h4>Here are the Objects on My Shelf</h4>
           <ul>
-          {this.props ? this.props.items.map((items) => {
-            return(
-              <li>{items.description}</li>
-            );
-          }) : '' }
+          {this.props.items.map((items) => {
+            return(<li>{items.description}</li>);
+          })}
         </ul>
       </div>
         </>
