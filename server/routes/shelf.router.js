@@ -10,7 +10,7 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('req.user:', req.user);
     if (req.isAuthenticated()) {
-        pool.query('SELECT * FROM "item";')
+        pool.query('SELECT * FROM item WHERE item.user_id = $1;', [req.user.id])
             .then(results => res.send(results.rows))
             .catch(error => {
                 console.log('Error making SELECT for items:', error);
@@ -43,8 +43,16 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+    console.log( 'this is the param', req.params.id );
+    if (req.isAuthenticated()) {
+        pool.query(`DELETE FROM "item" WHERE "id" = $1;`, [req.params.id])
+        .then((result) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            res.sendStatus(500);
+        })
+    }
 });
 
 
